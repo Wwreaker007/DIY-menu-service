@@ -1,0 +1,75 @@
+syntax = "proto3";
+
+option go_package = "codegen/orders";
+
+enum OrderStatus {
+    ORDER_INCOMPLETE = 0;
+    ORDER_PLACED = 1;
+    ORDER_PREPARING = 2;
+    ORDER_READY = 3;
+    ORDER_CANCELLED = 4;                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              
+}
+
+message Order {
+    optional string OrderID = 1;
+    int64 orderTotalAmount = 2;
+    repeated Entity itemEntity = 3;
+    optional OrderStatus orderStatus = 4;
+}
+
+message Entity {
+    optional bool itemAvailability = 1;
+    Item item = 2;
+    double itemTotalAmout = 3;
+}
+
+message Item {
+    string itemName = 1;
+    double itemCost = 2;
+}
+
+message CreateOrderRequest {
+    int64 userID = 1;
+    Order order = 2;
+}
+
+message CreateOrderResponse {
+    string status = 1;
+    optional Order order = 2;
+}
+
+message GetOrderRequest {
+    int64 userID = 1;
+    optional OrderStatus orderStatus = 2;
+}
+
+message GetOrderResponse {
+    string status = 1;
+    repeated Order orders = 2;
+}
+
+message GetOrderByOrderIDRequest {
+    int64 userID = 1;
+    Order order = 2;
+}
+
+message GetOrderByOrderIDResponse {
+    string status = 1;
+    optional Order order = 2;
+}
+
+message UpdateOrderRequest {
+    string userID = 1;
+    Order order = 2;
+}
+
+message UpdateOrderResponse {
+    string status = 1;
+    Order order = 2;
+}
+
+service OrderService {
+    rpc CreateOrder(CreateOrderRequest) returns (CreateOrderResponse);
+    rpc GetOrder(GetOrderRequest) returns (GetOrderRequest);
+    rpc UpdateOrder(UpdateOrderRequest) returns (UpdateOrderResponse);
+}
