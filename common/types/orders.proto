@@ -29,7 +29,7 @@ message Item {
 }
 
 message CreateOrderRequest {
-    int64 userID = 1;
+    string userID = 1;
     Order order = 2;
 }
 
@@ -39,7 +39,7 @@ message CreateOrderResponse {
 }
 
 message GetOrderRequest {
-    int64 userID = 1;
+    string userID = 1;
     optional OrderStatus orderStatus = 2;
 }
 
@@ -49,7 +49,7 @@ message GetOrderResponse {
 }
 
 message GetOrderByOrderIDRequest {
-    int64 userID = 1;
+    string userID = 1;
     Order order = 2;
 }
 
@@ -70,6 +70,6 @@ message UpdateOrderResponse {
 
 service OrderService {
     rpc CreateOrder(CreateOrderRequest) returns (CreateOrderResponse);
-    rpc GetOrder(GetOrderRequest) returns (GetOrderRequest);
+    rpc GetOrder(GetOrderRequest) returns (GetOrderResponse);
     rpc UpdateOrder(UpdateOrderRequest) returns (UpdateOrderResponse);
 }
