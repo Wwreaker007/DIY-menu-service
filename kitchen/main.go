@@ -2,16 +2,29 @@ package main
 
 import (
 	"fmt"
+	"log"
+
+	"google.golang.org/grpc"
+	"google.golang.org/grpc/credentials/insecure"
 )
+
+func NewGRPCClientConnection(addr string) *grpc.ClientConn {
+	conn, err := grpc.NewClient(addr, grpc.WithTransportCredentials(insecure.NewCredentials()))
+	if err != nil {
+		log.Fatalln("error in creating a client connection to order service")
+	}
+	return conn
+}
 
 func main() {
 	/*
 		1. Open a connection to the port for starting the HTTP server
 		2. Start the HTTP server registering the service implementation
 	*/
-
-	httpServer := NewHttpServer("tcp", ":9000")
-	_, err := httpServer.Start()
+	conn := NewGRPCClientConnection(":9001")
+	defer conn.Close()
+	httpServer := NewHttpServer("tcp", ":9000", conn)
+	err := httpServer.Start()
 	if err != nil {
 		fmt.Println("Port 9000 is not available")
 		panic(0)

@@ -1,4 +1,4 @@
-package ordermanager
+package handlers
 
 import (
 	"context"

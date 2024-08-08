@@ -7,7 +7,7 @@ import (
 
 	"github.com/Wwreaker007/DIY-menu-service/common/data"
 	"github.com/Wwreaker007/DIY-menu-service/orders/db/inmem"
-	ordermanager "github.com/Wwreaker007/DIY-menu-service/orders/handlers/order_manager"
+	"github.com/Wwreaker007/DIY-menu-service/orders/handlers"
 	oms "github.com/Wwreaker007/DIY-menu-service/orders/services/order_manager"
 	"google.golang.org/grpc"
 )
@@ -40,7 +40,7 @@ func (s *GrpcServer) Start() error {
 	grpcServer := grpc.NewServer()
 
 	// Register the services via the handlers here to the gRPC
-	ordermanager.NewOrderManagerhandler(grpcServer, orderService)
+	handlers.NewOrderManagerhandler(grpcServer, orderService)
 
 	log.Println("Starting order managerGRPC server ")
 	return grpcServer.Serve(connection)
