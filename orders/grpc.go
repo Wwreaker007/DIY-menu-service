@@ -1,8 +1,15 @@
-package orders
+package main
 
 import (
 	"fmt"
+	"log"
 	"net"
+
+	"github.com/Wwreaker007/DIY-menu-service/common/data"
+	"github.com/Wwreaker007/DIY-menu-service/orders/db/inmem"
+	ordermanager "github.com/Wwreaker007/DIY-menu-service/orders/handlers/order_manager"
+	oms "github.com/Wwreaker007/DIY-menu-service/orders/services/order_manager"
+	"google.golang.org/grpc"
 )
 
 type GrpcServer struct {
@@ -17,12 +24,24 @@ func NewGrpcServer(address string, network string) *GrpcServer {
 	}
 }
 
-func (s *GrpcServer) GetConnection() (net.Listener, error) {
+func (s *GrpcServer) Start() error {
 	connection, err := net.Listen(s.Network, s.Address)
 	if err != nil {
 		fmt.Println("error listening on port 9001")
-		return nil, err
+		return err
 	}
 
-	return connection, nil
+	// Spin up the dependencies required for the GRPC server
+	var inMeMoryDataStore []*data.OrderEntity
+	db := inmem.NewInMemoryDbService(inMeMoryDataStore)
+	orderService := oms.NewOrderManagerService(db)
+
+	// Create a new gRPC server which will serve the requests
+	grpcServer := grpc.NewServer()
+
+	// Register the services via the handlers here to the gRPC
+	ordermanager.NewOrderManagerhandler(grpcServer, orderService)
+
+	log.Println("Starting order managerGRPC server ")
+	return grpcServer.Serve(connection)
 }

@@ -1,4 +1,4 @@
-package kitchen
+package main
 
 import (
 	"fmt"
@@ -17,7 +17,7 @@ func NewHttpServer(network string, address string) *HttpServer{
 	}
 }
 
-func (s *HttpServer) GetConnection() (net.Listener, error) {
+func (s *HttpServer) Start() (net.Listener, error) {
 	connection, err := net.Listen(s.Network, s.Address)
 	if err != nil {
 		fmt.Println("error listening on port 9000")
