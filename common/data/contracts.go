@@ -5,7 +5,7 @@ import (
 )
 
 type CreateOrderRequest struct {
-	UserID 		string 				`json:"userID"`
+	UserID 		string 				`json:"user_id"`
 	Order  		*orders.Order  		`json:"order"`
 }
 
@@ -15,17 +15,17 @@ type CreateOrderResponse struct {
 }
 
 type GetOrderRequest struct {
-	UserID      string 				`json:"userID"`
-	OrderStatus *orders.OrderStatus `json:"orderStatus,omitempty"`
+	UserID      string 				`json:"user_id"`
+	OrderStatus *orders.OrderStatus `json:"order_status,omitempty"`
 }
 
 type GetOrderResponse struct {
-	Status 		string 				`json:"userID"`
+	Status 		string 				`json:"user_id"`
 	Orders 		[]*orders.Order		`json:"orders"`
 }
 
 type GetOrderByOrderIDRequest struct{
-	UserID 		string				`json:"userID"`
+	UserID 		string				`json:"user_id"`
 	Order		*orders.Order		`json:"order"`
 }
 
@@ -35,11 +35,11 @@ type GetOrderByOrderIDResponse struct {
 }
 
 type UpdateOrderRequest struct {
-	UserID		string				`json:"userID"`
+	UserID		string				`json:"user_id"`
 	Order		*orders.Order		`json:"order"`
 }
 
 type UpdateOrderResponse struct {
 	Status 		string 				`json:"status"`
-	Order		*orders.Order		`json:"Order"`
+	Order		*orders.Order		`json:"order"`
 }
