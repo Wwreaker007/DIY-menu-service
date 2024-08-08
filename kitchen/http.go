@@ -1,6 +1,7 @@
 package main
 
 import (
+	"log"
 	"net/http"
 
 	"github.com/Wwreaker007/DIY-menu-service/common/codegen/orders"
@@ -42,5 +43,6 @@ func (s *HttpServer) Start()  error {
 	router.HandleFunc(UPDATE_ORDER, handlers.NewUpdateOrderHandler(kms).UpdateOrderHandler)
 
 	// Start the server on the passed on port
+	log.Println("Starting HTTP server at port 9000")
 	return http.ListenAndServe(s.Address, router)
 }
