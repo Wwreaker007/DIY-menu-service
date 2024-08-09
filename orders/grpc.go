@@ -27,7 +27,7 @@ func NewGrpcServer(address string, network string) *GrpcServer {
 func (s *GrpcServer) Start() error {
 	connection, err := net.Listen(s.Network, s.Address)
 	if err != nil {
-		fmt.Println("error listening on port 9001")
+		fmt.Println("error :", err.Error())
 		return err
 	}
 
