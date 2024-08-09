@@ -26,7 +26,7 @@ func main() {
 	httpServer := NewHttpServer("tcp", ":9000", conn)
 	err := httpServer.Start()
 	if err != nil {
-		fmt.Println("Port 9000 is not available")
+		fmt.Println("error : ", err.Error())
 		panic(0)
 	}
 }
