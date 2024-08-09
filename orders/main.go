@@ -12,7 +12,7 @@ func main () {
 	grpcServer := NewGrpcServer("tcp", ":9001")
 	err := grpcServer.Start()
 	if err != nil {
-		fmt.Println("error : ", err.Error())
+		fmt.Println(err.Error())
 		panic(0)
 	}
 }
