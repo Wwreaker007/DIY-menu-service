@@ -12,7 +12,7 @@ func main () {
 	grpcServer := NewGrpcServer("tcp", ":9001")
 	err := grpcServer.Start()
 	if err != nil {
-		fmt.Println("Port 9001 is not available")
+		fmt.Println("error : ", err.Error())
 		panic(0)
 	}
 }
