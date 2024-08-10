@@ -1,0 +1,42 @@
+syntax = "proto3";
+
+package orders;
+option go_package = "github.com/Wwreaker007/DIY-menu-service/common/codegen/orders";
+
+import "common/common.proto";
+
+message CreateOrderRequest {
+    string userID = 1;
+    common.Order order = 2;
+}
+
+message CreateOrderResponse {
+    string status = 1;
+    optional common.Order order = 2;
+}
+
+message GetOrderRequest {
+    string userID = 1;
+    optional common.OrderStatus orderStatus = 2;
+}
+
+message GetOrderResponse {
+    string status = 1;
+    repeated common.Order orders = 2;
+}
+
+message UpdateOrderRequest {
+    string userID = 1;
+    common.Order order = 2;
+}
+
+message UpdateOrderResponse {
+    string status = 1;
+    common.Order order = 2;
+}
+
+service OrderService {
+    rpc CreateOrder(CreateOrderRequest) returns (CreateOrderResponse);
+    rpc GetOrder(GetOrderRequest) returns (GetOrderResponse);
+    rpc UpdateOrder(UpdateOrderRequest) returns (UpdateOrderResponse);
+}

@@ -1,0 +1,31 @@
+syntax = "proto3";
+
+package cookhouse;
+option go_package = "github.com/Wwreaker007/DIY-menu-service/common/codegen/cookhouse";
+
+import "common/common.proto";
+
+message GetOrderByOrderIDRequest {
+    string orderID = 1;
+}
+
+message GetOrderByOrderIDResponse {
+    string status = 1;
+    string userID = 2;
+    common.Order order = 3;
+}
+
+message UpdateOrderStatusRequest {
+    common.Order order = 1;
+}
+
+message UpdateOrderStatusResponse {
+    string status = 1;
+    common.Order order = 2;
+}
+
+service CookHouseService {
+    rpc GetOrderByOrderID(GetOrderByOrderIDRequest) returns (GetOrderByOrderIDResponse);
+    rpc UpdateOrderStatus(UpdateOrderStatusRequest) returns (UpdateOrderStatusResponse);
+}
+

@@ -1,6 +1,7 @@
 syntax = "proto3";
 
-option go_package = "codegen/orders";
+package common;
+option go_package = "github.com/Wwreaker007/DIY-menu-service/common/codegen/common";
 
 enum OrderStatus {
     ORDER_INCOMPLETE = 0;
@@ -26,50 +27,4 @@ message Entity {
 message Item {
     string itemName = 1;
     double itemCost = 2;
-}
-
-message CreateOrderRequest {
-    string userID = 1;
-    Order order = 2;
-}
-
-message CreateOrderResponse {
-    string status = 1;
-    optional Order order = 2;
-}
-
-message GetOrderRequest {
-    string userID = 1;
-    optional OrderStatus orderStatus = 2;
-}
-
-message GetOrderResponse {
-    string status = 1;
-    repeated Order orders = 2;
-}
-
-message GetOrderByOrderIDRequest {
-    string userID = 1;
-    Order order = 2;
-}
-
-message GetOrderByOrderIDResponse {
-    string status = 1;
-    optional Order order = 2;
-}
-
-message UpdateOrderRequest {
-    string userID = 1;
-    Order order = 2;
-}
-
-message UpdateOrderResponse {
-    string status = 1;
-    Order order = 2;
-}
-
-service OrderService {
-    rpc CreateOrder(CreateOrderRequest) returns (CreateOrderResponse);
-    rpc GetOrder(GetOrderRequest) returns (GetOrderResponse);
-    rpc UpdateOrder(UpdateOrderRequest) returns (UpdateOrderResponse);
 }
