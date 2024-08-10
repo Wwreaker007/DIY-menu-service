@@ -5,12 +5,11 @@ import (
 	"log"
 
 	"github.com/Wwreaker007/DIY-menu-service/common/codegen/orders"
+	"github.com/Wwreaker007/DIY-menu-service/common/codegen/common"
 	"github.com/Wwreaker007/DIY-menu-service/common/data"
 	"github.com/Wwreaker007/DIY-menu-service/orders/types"
 	"github.com/Wwreaker007/DIY-menu-service/orders/utils"
 )
-
-var inMeMoryDataStore []*data.OrderEntity
 
 type OrderManagerService struct {
 	db 		types.OrderRepositoryManager
@@ -29,7 +28,7 @@ func NewOrderManagerService(db types.OrderRepositoryManager) *OrderManagerServic
 */
 func (oms *OrderManagerService) CreateOrder(ctx context.Context, request *orders.CreateOrderRequest) (response *orders.CreateOrderResponse, err error) {
 	// Update the order status to ORDER_PLACED
-	orderStatus := orders.OrderStatus_ORDER_PLACED
+	orderStatus := common.OrderStatus_ORDER_PLACED
 	request.Order.OrderStatus = &orderStatus
 
 	// Create a new entity and store it in the DB
