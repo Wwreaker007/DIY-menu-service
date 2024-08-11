@@ -20,7 +20,7 @@ func NewCreateOrderHandler(kms types.Kitchen) *CreateOrderHttpHandler {
 	}
 }
 
-func (h *CreateOrderHttpHandler) CreatOrderHandler(w http.ResponseWriter, r *http.Request) {
+func (h *CreateOrderHttpHandler) Handler(w http.ResponseWriter, r *http.Request) {
 	ctx, cancel := context.WithTimeout(r.Context(), time.Second*2)
 	defer cancel()
 

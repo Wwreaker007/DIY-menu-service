@@ -67,8 +67,8 @@ func (oms *OrderManagerService) GetOrder(ctx context.Context, request *orders.Ge
 		}
 		return response, err
 	}
-	if len(fetchedOrders) == 0 {
-		log.Println("no orders found for this userDI :", request.UserID)
+	if len(fetchedOrders) == 0 || fetchedOrders == nil{
+		log.Println("no orders found for this userID :", request.UserID)
 		response = &orders.GetOrderResponse{
 			Status: "NO ORDERS FOUND !",
 		}

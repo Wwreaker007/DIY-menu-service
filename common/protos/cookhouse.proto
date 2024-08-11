@@ -5,6 +5,15 @@ option go_package = "github.com/Wwreaker007/DIY-menu-service/common/codegen/cook
 
 import "common/common.proto";
 
+message GetAllOrderByStatusFilterRequest {
+    common.OrderStatus orderStatus = 1;
+}
+
+message GetAllOrderByStatusFilterResponse {
+    string status = 1;
+    repeated common.Order orders = 2;
+}
+
 message GetOrderByOrderIDRequest {
     string orderID = 1;
 }
@@ -25,6 +34,7 @@ message UpdateOrderStatusResponse {
 }
 
 service CookHouseService {
+    rpc GetAllOrderByStatusFilter(GetAllOrderByStatusFilterRequest) returns (GetAllOrderByStatusFilterResponse);
     rpc GetOrderByOrderID(GetOrderByOrderIDRequest) returns (GetOrderByOrderIDResponse);
     rpc UpdateOrderStatus(UpdateOrderStatusRequest) returns (UpdateOrderStatusResponse);
 }

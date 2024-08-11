@@ -19,14 +19,16 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	CookHouseService_GetOrderByOrderID_FullMethodName = "/cookhouse.CookHouseService/GetOrderByOrderID"
-	CookHouseService_UpdateOrderStatus_FullMethodName = "/cookhouse.CookHouseService/UpdateOrderStatus"
+	CookHouseService_GetAllOrderByStatusFilter_FullMethodName = "/cookhouse.CookHouseService/GetAllOrderByStatusFilter"
+	CookHouseService_GetOrderByOrderID_FullMethodName         = "/cookhouse.CookHouseService/GetOrderByOrderID"
+	CookHouseService_UpdateOrderStatus_FullMethodName         = "/cookhouse.CookHouseService/UpdateOrderStatus"
 )
 
 // CookHouseServiceClient is the client API for CookHouseService service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type CookHouseServiceClient interface {
+	GetAllOrderByStatusFilter(ctx context.Context, in *GetAllOrderByStatusFilterRequest, opts ...grpc.CallOption) (*GetAllOrderByStatusFilterResponse, error)
 	GetOrderByOrderID(ctx context.Context, in *GetOrderByOrderIDRequest, opts ...grpc.CallOption) (*GetOrderByOrderIDResponse, error)
 	UpdateOrderStatus(ctx context.Context, in *UpdateOrderStatusRequest, opts ...grpc.CallOption) (*UpdateOrderStatusResponse, error)
 }
@@ -37,6 +39,16 @@ type cookHouseServiceClient struct {
 
 func NewCookHouseServiceClient(cc grpc.ClientConnInterface) CookHouseServiceClient {
 	return &cookHouseServiceClient{cc}
+}
+
+func (c *cookHouseServiceClient) GetAllOrderByStatusFilter(ctx context.Context, in *GetAllOrderByStatusFilterRequest, opts ...grpc.CallOption) (*GetAllOrderByStatusFilterResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(GetAllOrderByStatusFilterResponse)
+	err := c.cc.Invoke(ctx, CookHouseService_GetAllOrderByStatusFilter_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
 }
 
 func (c *cookHouseServiceClient) GetOrderByOrderID(ctx context.Context, in *GetOrderByOrderIDRequest, opts ...grpc.CallOption) (*GetOrderByOrderIDResponse, error) {
@@ -63,6 +75,7 @@ func (c *cookHouseServiceClient) UpdateOrderStatus(ctx context.Context, in *Upda
 // All implementations must embed UnimplementedCookHouseServiceServer
 // for forward compatibility.
 type CookHouseServiceServer interface {
+	GetAllOrderByStatusFilter(context.Context, *GetAllOrderByStatusFilterRequest) (*GetAllOrderByStatusFilterResponse, error)
 	GetOrderByOrderID(context.Context, *GetOrderByOrderIDRequest) (*GetOrderByOrderIDResponse, error)
 	UpdateOrderStatus(context.Context, *UpdateOrderStatusRequest) (*UpdateOrderStatusResponse, error)
 	mustEmbedUnimplementedCookHouseServiceServer()
@@ -75,6 +88,9 @@ type CookHouseServiceServer interface {
 // pointer dereference when methods are called.
 type UnimplementedCookHouseServiceServer struct{}
 
+func (UnimplementedCookHouseServiceServer) GetAllOrderByStatusFilter(context.Context, *GetAllOrderByStatusFilterRequest) (*GetAllOrderByStatusFilterResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetAllOrderByStatusFilter not implemented")
+}
 func (UnimplementedCookHouseServiceServer) GetOrderByOrderID(context.Context, *GetOrderByOrderIDRequest) (*GetOrderByOrderIDResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetOrderByOrderID not implemented")
 }
@@ -100,6 +116,24 @@ func RegisterCookHouseServiceServer(s grpc.ServiceRegistrar, srv CookHouseServic
 		t.testEmbeddedByValue()
 	}
 	s.RegisterService(&CookHouseService_ServiceDesc, srv)
+}
+
+func _CookHouseService_GetAllOrderByStatusFilter_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetAllOrderByStatusFilterRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CookHouseServiceServer).GetAllOrderByStatusFilter(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: CookHouseService_GetAllOrderByStatusFilter_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CookHouseServiceServer).GetAllOrderByStatusFilter(ctx, req.(*GetAllOrderByStatusFilterRequest))
+	}
+	return interceptor(ctx, in, info, handler)
 }
 
 func _CookHouseService_GetOrderByOrderID_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
@@ -145,6 +179,10 @@ var CookHouseService_ServiceDesc = grpc.ServiceDesc{
 	ServiceName: "cookhouse.CookHouseService",
 	HandlerType: (*CookHouseServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
+		{
+			MethodName: "GetAllOrderByStatusFilter",
+			Handler:    _CookHouseService_GetAllOrderByStatusFilter_Handler,
+		},
 		{
 			MethodName: "GetOrderByOrderID",
 			Handler:    _CookHouseService_GetOrderByOrderID_Handler,

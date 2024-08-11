@@ -4,6 +4,7 @@ import (
 	"github.com/Wwreaker007/DIY-menu-service/common/codegen/common"
 )
 
+
 type CreateOrderRequest struct {
 	UserID 		string 				`json:"user_id"`
 	Order  		*common.Order  		`json:"order"`
@@ -22,16 +23,6 @@ type GetOrderRequest struct {
 type GetOrderResponse struct {
 	Status 		string 				`json:"user_id"`
 	Orders 		[]*common.Order		`json:"orders"`
-}
-
-type GetOrderByOrderIDRequest struct{
-	UserID 		string				`json:"user_id"`
-	Order		*common.Order		`json:"order"`
-}
-
-type GetOrderByOrderIDResponse struct {
-	Status 		string 				`json:"status"`
-	Order		*common.Order		`json:"order,omitempty"`
 }
 
 type UpdateOrderRequest struct {

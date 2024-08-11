@@ -38,9 +38,9 @@ func (s *HttpServer) Start()  error {
 	kms := kitchenmanager.NewKitchenManagerService(client)
 
 	// Register the routes for the specific handlers
-	router.HandleFunc(CREATE_ORDER, handlers.NewCreateOrderHandler(kms).CreatOrderHandler)
-	router.HandleFunc(GET_ORDER, handlers.NewGetOrderHandler(kms).GetOrderHandler)
-	router.HandleFunc(UPDATE_ORDER, handlers.NewUpdateOrderHandler(kms).UpdateOrderHandler)
+	router.HandleFunc(CREATE_ORDER, handlers.NewCreateOrderHandler(kms).Handler)
+	router.HandleFunc(GET_ORDER, handlers.NewGetOrderHandler(kms).Handler)
+	router.HandleFunc(UPDATE_ORDER, handlers.NewUpdateOrderHandler(kms).Handler)
 
 	// Start the server on the passed on port
 	log.Println("Starting HTTP server at port 9000")
