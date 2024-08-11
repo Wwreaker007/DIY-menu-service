@@ -29,7 +29,7 @@ func (cms *CookHouseManagerService) GetAllOrderByStatusFilter(ctx context.Contex
 		}
 		return response, err
 	}
-	if orders == nil || len(orders) == 0 {
+	if len(orders) == 0 || orders == nil {
 		log.Println("No orders present with the status: " + request.OrderStatus.String())
 		response := &cookhouse.GetAllOrderByStatusFilterResponse{
 			Status: "NO OREDERS WITH STATUS : " + request.OrderStatus.String(),
