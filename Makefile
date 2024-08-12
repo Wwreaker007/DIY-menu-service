@@ -4,13 +4,20 @@ run-orders:
 run-kitchen:
 	@go run kitchen/*.go
 
+run-cookhouse:
+	@go run cookhouse/*.go
+
+run-all:
+	@make run-orders
+	@make run-kitchen
+	@make run-cookhouse
+
 gen-orders:
 	@protoc --proto_path=common/protos "common/protos/orders.proto" \
 	--go_out=common/codegen/orders \
 	--go_opt=paths=source_relative \
 	--go-grpc_out=common/codegen/orders \
 	--go-grpc_opt=paths=source_relative \
-
 
 gen-cookhouse:
 	@protoc --proto_path=common/protos "common/protos/cookhouse.proto" \
