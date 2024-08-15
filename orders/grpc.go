@@ -33,8 +33,7 @@ func (s *GrpcServer) Start() error {
 	}
 
 	// Spin up the dependencies required for the GRPC server
-	var inMeMoryDataStore []*data.OrderEntity
-	db := inmem.NewInMemoryDbService(inMeMoryDataStore)
+	db := inmem.NewInMemoryDbService(data.NewThreadSafeOrderEntity())
 	orderService := oms.NewOrderManagerService(db)
 	cookhouseService := cms.NewCookHouseManagerService(db)
 
