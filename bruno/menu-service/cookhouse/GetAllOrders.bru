@@ -5,7 +5,17 @@ meta {
 }
 
 post {
-  url: https://localhost:8000/order/all/v1
-  body: none
+  url: http://localhost:8000/order/all/v1
+  body: json
   auth: none
+}
+
+headers {
+  Content-Type: application/json
+}
+
+body:json {
+  {
+    "order_status" : 1
+  }
 }

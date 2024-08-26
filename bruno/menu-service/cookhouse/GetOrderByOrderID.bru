@@ -5,7 +5,7 @@ meta {
 }
 
 post {
-  url: https://localhost:8000/order/all/v1
+  url: http://localhost:8000/order/orderid/v1
   body: json
   auth: none
 }
@@ -16,6 +16,6 @@ headers {
 
 body:json {
   {
-    "order_status" : 0
+    "order_id" : "1"
   }
 }

@@ -5,7 +5,7 @@ meta {
 }
 
 post {
-  url: https://localhost:9000/get/order/v1
+  url: http://localhost:9000/update/order/v1
   body: json
   auth: none
 }
@@ -17,6 +17,32 @@ headers {
 body:json {
   {
     "user_id": "0",
-    "order_status" : 1 
+    "order": {
+      "OrderID": "1",
+      "OrderTotalAmount": 800,
+      "ItemEntity": [
+        {
+          "ItemAvailability": true,
+          "Item": {
+            "ItemName": "Chicken Burger",
+            "ItemCost": 300
+          }
+        },
+        {
+          "ItemAvailability": true,
+          "Item": {
+            "ItemName": "Fries",
+            "ItemCost": 200
+          }
+        },
+        {
+          "ItemAvailability": true,
+          "Item": {
+            "ItemName": "Chicken Tenders",
+            "ItemCost": 300
+          }
+        }],
+        "OrderStatus": 2
+    }
   }
 }
