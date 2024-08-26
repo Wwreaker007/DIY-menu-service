@@ -31,10 +31,6 @@ func (h *UpdateOrderStatusHandler) Handler(w http.ResponseWriter, r *http.Reques
         http.Error(w, err.Error(), http.StatusBadRequest)
         return
     }
-	response, err := h.cms.UpdateOrderStatus(ctx, &request)
-	if err != nil {
-        http.Error(w, err.Error(), http.StatusBadRequest)
-        return
-    }
+	response, _ := h.cms.UpdateOrderStatus(ctx, &request)
 	json.NewEncoder(w).Encode(response)
 }

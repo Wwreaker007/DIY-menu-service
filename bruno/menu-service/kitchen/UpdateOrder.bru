@@ -1,0 +1,22 @@
+meta {
+  name: UpdateOrder
+  type: http
+  seq: 3
+}
+
+post {
+  url: https://localhost:9000/get/order/v1
+  body: json
+  auth: none
+}
+
+headers {
+  Content-Type: application/json
+}
+
+body:json {
+  {
+    "user_id": "0",
+    "order_status" : 1 
+  }
+}

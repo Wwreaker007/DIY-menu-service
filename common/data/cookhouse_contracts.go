@@ -9,7 +9,7 @@ type GetOrderByStatusFilterRequest struct{
 }
 
 type GetOrderByStatusFilterResponse struct {
-	Status 		string 				``
+	Status 		string 				`json:"status"`
 	Orders		[]*common.Order		`json:"orders"`
 }
 

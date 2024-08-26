@@ -31,10 +31,6 @@ func (h *GetOrderByOrderIDHandler) Handler(w http.ResponseWriter, r *http.Reques
         http.Error(w, err.Error(), http.StatusBadRequest)
         return
     }
-	response, err := h.cms.GetOrderByOrderID(ctx, &request)
-	if err != nil {
-        http.Error(w, err.Error(), http.StatusBadRequest)
-        return
-    }
+	response, _ := h.cms.GetOrderByOrderID(ctx, &request)
 	json.NewEncoder(w).Encode(response)
 }

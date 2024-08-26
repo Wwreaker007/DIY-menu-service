@@ -1,0 +1,21 @@
+meta {
+  name: GetOrderByOrderID
+  type: http
+  seq: 2
+}
+
+post {
+  url: https://localhost:8000/order/all/v1
+  body: json
+  auth: none
+}
+
+headers {
+  Content-Type: application/json
+}
+
+body:json {
+  {
+    "order_status" : 0
+  }
+}

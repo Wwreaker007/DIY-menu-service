@@ -30,10 +30,6 @@ func (h *CreateOrderHttpHandler) Handler(w http.ResponseWriter, r *http.Request)
         http.Error(w, err.Error(), http.StatusBadRequest)
         return
     }
-	response, err := h.kms.CreateOrder(ctx, &request)
-	if err != nil {
-        http.Error(w, err.Error(), http.StatusBadRequest)
-        return
-    }
+	response, _ := h.kms.CreateOrder(ctx, &request)
 	json.NewEncoder(w).Encode(response)
 }

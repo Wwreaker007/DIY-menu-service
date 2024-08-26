@@ -1,16 +1,18 @@
 run-orders:
 	@go run orders/*.go
+.PHONY: run-orders
 
 run-kitchen:
 	@go run kitchen/*.go
+.PHONY: run-kitchen
 
 run-cookhouse:
 	@go run cookhouse/*.go
+.PHONY: run-cookhouse
 
 run-all:
-	@make run-orders
-	@make run-kitchen
-	@make run-cookhouse
+	make -j 3 run-orders run-kitchen run-cookhouse
+.PHONY: run-all
 
 gen-orders:
 	@protoc --proto_path=common/protos "common/protos/orders.proto" \

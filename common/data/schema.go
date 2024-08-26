@@ -39,7 +39,7 @@ func (ts *ThreadSafeOrderEntity) GetOrderByOrderID(orderID string) *OrderEntity 
 	defer ts.mutex.RUnlock()
 
 	for _, order := range ts.Orders {
-		if order.Order.OrderID == &orderID {
+		if *order.Order.OrderID == orderID {
 			return order
 		}
 	}
@@ -52,7 +52,7 @@ func (ts *ThreadSafeOrderEntity) GetOrdersByUserID(userID string) []*OrderEntity
 
 	var allOrders []*OrderEntity
 	for _, order := range ts.Orders {
-		if &order.UserID == &userID {
+		if order.UserID == userID {
 			allOrders = append(allOrders, order)
 		}
 	}
@@ -65,7 +65,7 @@ func (ts *ThreadSafeOrderEntity) GetOrdersByStatus(status *common.OrderStatus) [
 
 	var filteredOrders []*OrderEntity
 	for _, order := range ts.Orders {
-		if order.Order.OrderStatus == status {
+		if *order.Order.OrderStatus == *status {
 			filteredOrders = append(filteredOrders, order)
 		}
 	}

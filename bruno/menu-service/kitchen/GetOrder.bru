@@ -1,0 +1,43 @@
+meta {
+  name: GetOrder
+  type: http
+  seq: 2
+}
+
+post {
+  url: https://localhost:9000/create/order/v1
+  body: json
+  auth: none
+}
+
+headers {
+  Content-Type: application/json
+}
+
+body:json {
+  {
+    "user_id": "0",
+    "order": {
+      "OrderID": "1",
+      "OrderTotalAmount": "800",
+      "ItemEntity": {
+        "ItemAvailability": true,
+        "Item": [
+          {
+            "ItemName": "Chicken Burger",
+            "ItemCost": 300
+          },
+          {
+            "ItemName": "Fries",
+            "ItemCost": 200
+          },
+          {
+            "ItemName": "Chicken Tenders",
+            "ItemCost": 400
+          }
+        ],
+        "OrderStatus": 0
+      }
+    }
+  }
+}

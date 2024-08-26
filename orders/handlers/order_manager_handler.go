@@ -38,7 +38,7 @@ func (h *OrderManagerHandler) CreateOrder(ctx context.Context, request *orders.C
 func (h *OrderManagerHandler) GetOrder(ctx context.Context, request *orders.GetOrderRequest) (*orders.GetOrderResponse, error) {
 	response, err := h.OrderManagerService.GetOrder(ctx, request)
 	if err != nil {
-		log.Println("Error in creating an order : ", err.Error())
+		log.Println("Error in fetching orders : ", err.Error())
 		return response, err
 	}
 	return response, err
@@ -47,7 +47,7 @@ func (h *OrderManagerHandler) GetOrder(ctx context.Context, request *orders.GetO
 func (h *OrderManagerHandler) UpdateOrder(ctx context.Context, request *orders.UpdateOrderRequest) (*orders.UpdateOrderResponse, error) {
 	response, err := h.OrderManagerService.UpdateOrder(ctx, request)
 	if err != nil {
-		log.Println("Error in creating an order : ", err.Error())
+		log.Println("Error in updating order : ", err.Error())
 		return response, err
 	}
 	return response, err
