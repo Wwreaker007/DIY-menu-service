@@ -18,7 +18,7 @@ type GrpcServer struct {
 	Address string
 }
 
-func NewGrpcServer(address string, network string) *GrpcServer {
+func NewGrpcServer(network string, address string) *GrpcServer {
 	return &GrpcServer{
 		Network: network,
 		Address: address,
@@ -44,6 +44,6 @@ func (s *GrpcServer) Start() error {
 	handlers.NewOrderManagerhandler(grpcServer, orderService)
 	handlers.NewCookHouseManagerHandler(grpcServer, cookhouseService)
 
-	log.Println("Starting order managerGRPC server ")
+	log.Println("Starting order manager GRPC server ")
 	return grpcServer.Serve(connection)
 }
