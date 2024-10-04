@@ -32,7 +32,7 @@ func (oms *OrderManagerService) CreateOrder(ctx context.Context, request *orders
 	request.Order.OrderStatus = &orderStatus
 
 	// Create a new entity and store it in the DB
-	newOrderEntity := &data.OrderEntity{
+	newOrderEntity := data.OrderEntity{
 		UserID: request.UserID,
 		Order: request.Order,
 	}
@@ -76,7 +76,13 @@ func (oms *OrderManagerService) GetOrder(ctx context.Context, request *orders.Ge
 	}
 
 	// Check if ORDER_STATUS filter is to be applied, else return all orders
-	filteredOrders := utils.FilterOrdersOnOrderStatus(fetchedOrders, request)
+	var filteredOrders []*common.Order
+	if(request.OrderStatus != nil) {
+		filteredOrders = utils.FilterOrdersOnOrderStatus(fetchedOrders, request)
+	}else {
+		filteredOrders = utils.GetNonFilterOrder(fetchedOrders, request)
+	}
+
 	
 	response = &orders.GetOrderResponse {
 		Status: "SUCCESS",
@@ -100,7 +106,7 @@ func (oms *OrderManagerService) UpdateOrder(ctx context.Context, request *orders
 		}
 		return response, err
 	}
-	if order == nil {
+	if (order == data.OrderEntity{}) {
 		log.Println("no order found with orderID : " + *request.Order.OrderID)
 		response = &orders.UpdateOrderResponse{
 			Status: "NO ORDER FOUND",
@@ -109,7 +115,7 @@ func (oms *OrderManagerService) UpdateOrder(ctx context.Context, request *orders
 	}
 
 	// Update the order with the updated order details
-	updatedOrderEntity := &data.OrderEntity{
+	updatedOrderEntity := data.OrderEntity{
 		UserID: request.UserID,
 		Order: request.Order,
 	}

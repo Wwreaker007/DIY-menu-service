@@ -22,8 +22,8 @@ type CookHouse interface {
 }
 
 type OrderRepositoryManager interface {
-	UpsertOrder(context.Context, *data.OrderEntity) (error)
-	GetAllOrdersByUserID(context.Context, string) ([]*data.OrderEntity, error)
-	GetOrderByOrderID(context.Context, string) (*data.OrderEntity, error)
-	GetAllOrdersByStatus(context.Context, *common.OrderStatus) ([]*data.OrderEntity, error)
+	UpsertOrder(context.Context, data.OrderEntity) (error)
+	GetAllOrdersByUserID(context.Context, string) ([]data.OrderEntity, error)
+	GetOrderByOrderID(context.Context, string) (data.OrderEntity, error)
+	GetAllOrdersByStatus(context.Context, common.OrderStatus) ([]data.OrderEntity, error)
 }

@@ -8,7 +8,7 @@ import (
 	"github.com/Wwreaker007/DIY-menu-service/common/data"
 )
 
-func FilterOrdersOnOrderStatus(ordersList []*data.OrderEntity, request *orders.GetOrderRequest) (filteredOrders []*common.Order) {
+func FilterOrdersOnOrderStatus(ordersList []data.OrderEntity, request *orders.GetOrderRequest) (filteredOrders []*common.Order) {
 	for _, order := range ordersList {
 		if order.Order.OrderStatus == request.OrderStatus {
 			filteredOrders = append(filteredOrders, order.Order)
@@ -17,9 +17,16 @@ func FilterOrdersOnOrderStatus(ordersList []*data.OrderEntity, request *orders.G
 	return filteredOrders
 }
 
-func UpdateOrderStatusInOrderEntity(updatedOrder *common.Order, oldOrderEntity *data.OrderEntity) *data.OrderEntity {
+func GetNonFilterOrder(ordersList []data.OrderEntity, request *orders.GetOrderRequest) (filteredOrders []*common.Order) {
+	for _, order := range ordersList {
+		filteredOrders = append(filteredOrders, order.Order)
+	}
+	return filteredOrders
+}
+
+func UpdateOrderStatusInOrderEntity(updatedOrder *common.Order, oldOrderEntity data.OrderEntity) data.OrderEntity {
 	if updatedOrder.OrderStatus == common.OrderStatus_ORDER_PLACED.Enum(){
-		return &data.OrderEntity{
+		return data.OrderEntity{
 			UserID: oldOrderEntity.UserID,
 			Order: updatedOrder,
 			CreatedOn: oldOrderEntity.CreatedOn,
@@ -27,7 +34,7 @@ func UpdateOrderStatusInOrderEntity(updatedOrder *common.Order, oldOrderEntity *
 			CompletedOn: time.Now().Unix(),
 		}
 	}
-	return &data.OrderEntity{
+	return data.OrderEntity{
 		UserID: oldOrderEntity.UserID,
 		Order: updatedOrder,
 		CreatedOn: oldOrderEntity.CreatedOn,

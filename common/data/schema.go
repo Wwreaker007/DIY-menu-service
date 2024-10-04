@@ -17,40 +17,40 @@ type OrderEntity struct {
 }
 
 type ThreadSafeOrderEntity struct {
-	Orders 		[]*OrderEntity
+	Orders 		[]OrderEntity
 	mutex		sync.RWMutex
 }
 
 func NewThreadSafeOrderEntity() *ThreadSafeOrderEntity {
     return &ThreadSafeOrderEntity{
-        Orders: make([]*OrderEntity, 0),
+        Orders: make([]OrderEntity, 0),
     }
 }
 
-func (ts *ThreadSafeOrderEntity) Append(orderEntity *OrderEntity) {
+func (ts *ThreadSafeOrderEntity) Append(orderEntity OrderEntity) {
 	ts.mutex.Lock()
 	defer ts.mutex.Unlock()
 
 	ts.Orders = append(ts.Orders, orderEntity)
 }
 
-func (ts *ThreadSafeOrderEntity) GetOrderByOrderID(orderID string) *OrderEntity {
+func (ts *ThreadSafeOrderEntity) GetOrderByOrderID(orderID string) OrderEntity {
 	ts.mutex.RLock()
 	defer ts.mutex.RUnlock()
 
 	for _, order := range ts.Orders {
-		if *order.Order.OrderID == orderID {
+		if orderID == *order.Order.OrderID {
 			return order
 		}
 	}
-	return nil
+	return OrderEntity{}
 }
 
-func (ts *ThreadSafeOrderEntity) GetOrdersByUserID(userID string) []*OrderEntity {
+func (ts *ThreadSafeOrderEntity) GetOrdersByUserID(userID string) []OrderEntity {
 	ts.mutex.RLock()
 	defer ts.mutex.RUnlock()
 
-	var allOrders []*OrderEntity
+	var allOrders []OrderEntity
 	for _, order := range ts.Orders {
 		if order.UserID == userID {
 			allOrders = append(allOrders, order)
@@ -59,27 +59,27 @@ func (ts *ThreadSafeOrderEntity) GetOrdersByUserID(userID string) []*OrderEntity
 	return allOrders
 }
 
-func (ts *ThreadSafeOrderEntity) GetOrdersByStatus(status *common.OrderStatus) []*OrderEntity {
+func (ts *ThreadSafeOrderEntity) GetOrdersByStatus(status common.OrderStatus) []OrderEntity {
 	ts.mutex.RLock()
 	defer ts.mutex.RUnlock()
 
-	var filteredOrders []*OrderEntity
+	var filteredOrders []OrderEntity
 	for _, order := range ts.Orders {
-		if *order.Order.OrderStatus == *status {
+		if *order.Order.OrderStatus == status {
 			filteredOrders = append(filteredOrders, order)
 		}
 	}
 	return filteredOrders
 }
 
-func (ts *ThreadSafeOrderEntity) UpdateOrder(orderEntity *OrderEntity) error {
+func (ts *ThreadSafeOrderEntity) UpdateOrder(orderEntity OrderEntity) error {
 	ts.mutex.Lock()
 	defer ts.mutex.Unlock()
 
-	for _, order := range ts.Orders {
-		if order.Order.OrderID == orderEntity.Order.OrderID {
-			order = orderEntity
-			order.UpdatedOn = time.Now().Unix()
+	for index, order := range ts.Orders {
+		if *order.Order.OrderID == *orderEntity.Order.OrderID {
+			orderEntity.UpdatedOn = time.Now().Unix()
+			ts.Orders[index] = orderEntity
 			return nil
 		}
 	}

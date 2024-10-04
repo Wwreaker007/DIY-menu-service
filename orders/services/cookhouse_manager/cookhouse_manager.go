@@ -6,6 +6,7 @@ import (
 
 	"github.com/Wwreaker007/DIY-menu-service/common/codegen/common"
 	"github.com/Wwreaker007/DIY-menu-service/common/codegen/cookhouse"
+	"github.com/Wwreaker007/DIY-menu-service/common/data"
 	"github.com/Wwreaker007/DIY-menu-service/orders/types"
 	"github.com/Wwreaker007/DIY-menu-service/orders/utils"
 )
@@ -21,7 +22,7 @@ func NewCookHouseManagerService(db types.OrderRepositoryManager) *CookHouseManag
 }
 
 func (cms *CookHouseManagerService) GetAllOrderByStatusFilter(ctx context.Context, request *cookhouse.GetAllOrderByStatusFilterRequest) (*cookhouse.GetAllOrderByStatusFilterResponse, error) {
-	orders, err := cms.db.GetAllOrdersByStatus(ctx, &request.OrderStatus)
+	orders, err := cms.db.GetAllOrdersByStatus(ctx, request.OrderStatus)
 	if err != nil {
 		log.Println("error in fetching orders: ", err.Error())
 		response := &cookhouse.GetAllOrderByStatusFilterResponse{
@@ -57,7 +58,7 @@ func (cms *CookHouseManagerService) GetOrderByOrderID(ctx context.Context, reque
 		}
 		return response, err
 	}
-	if order == nil {
+	if (order == data.OrderEntity{}) {
 		log.Println("No orders present with orderID : " + request.OrderID)
 		response := &cookhouse.GetOrderByOrderIDResponse{
 			Status: "NO OREDERS WITH ORDERID : " + request.OrderID,
@@ -81,7 +82,7 @@ func (cms *CookHouseManagerService) UpdateOrderStatus(ctx context.Context, reque
 		}
 		return response, err
 	}
-	if order == nil {
+	if (order == data.OrderEntity{}) {
 		log.Println("No orders present with orderID : " + *request.Order.OrderID)
 		response := &cookhouse.UpdateOrderStatusResponse{
 			Status: "NO OREDERS WITH ORDERID : " + *request.Order.OrderID,

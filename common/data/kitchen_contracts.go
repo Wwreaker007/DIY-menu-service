@@ -21,7 +21,7 @@ type GetOrderRequest struct {
 }
 
 type GetOrderResponse struct {
-	Status 		string 				`json:"user_id"`
+	Status 		string 				`json:"status"`
 	Orders 		[]*common.Order		`json:"orders"`
 }
 
