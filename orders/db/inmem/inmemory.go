@@ -55,7 +55,7 @@ func (db *InMemoryDBService) GetAllOrdersByUserID(ctx context.Context, userID st
 }
 
 /*
-	1. Get all the the orders wrt orderID
+	1. Get the order wrt orderID
 	2. Return the result set
 */
 func (db *InMemoryDBService) GetOrderByOrderID(ctx context.Context, orderID string) (data.OrderEntity, error) {

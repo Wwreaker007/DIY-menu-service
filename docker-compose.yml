@@ -1,0 +1,81 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:15
+    container_name: postgres
+    environment:
+      POSTGRES_USER: alluka
+      POSTGRES_PASSWORD: akulla
+      POSTGRES_DB: oms
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
+  migrate:
+    image: golang:1.23-alpine
+    volumes:
+      - ./migrations:/migrations
+    environment:
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_USER: alluka
+      DB_PASSWORD: akulla
+      DB_NAME: oms
+    entrypoint: 
+      - /bin/sh
+      - -c
+      - |
+        go install github.com/pressly/goose/v3/cmd/goose@latest && \
+        goose -dir /migrations postgres "postgres://alluka:akulla@postgres:5432/oms?sslmode=disable" up
+    depends_on:
+      - postgres
+
+  orders:
+    build:
+      context: .
+      dockerfile: orders/Dockerfile
+    depends_on:
+      - postgres
+      - migrate
+    environment:
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_USER: alluka
+      DB_PSWD: akulla
+      DB_NAME: oms
+    ports:
+      - "9001:9001"
+  
+  kitchen:
+    build:
+      context: .
+      dockerfile: kitchen/Dockerfile
+    depends_on:
+      - postgres
+      - migrate
+      - orders
+    environment:
+      ORDERS_HOST: orders
+      ORDERS_PORT: 9001
+    ports:
+      - "9000:9000"
+    
+  cookhouse:
+    build:
+      context: .
+      dockerfile: cookhouse/Dockerfile
+    depends_on:
+      - postgres
+      - migrate
+      - orders
+    environment:
+      ORDERS_HOST: orders
+      ORDERS_PORT: 9001
+    ports:
+      - "8000:8000"
+
+volumes:
+  postgres-data:
+

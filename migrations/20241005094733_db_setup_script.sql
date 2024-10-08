@@ -1,12 +1,12 @@
 -- +goose Up
 -- +goose StatementBegin
 CREATE TABLE orders (
-    order_id    SERIAL  PRIMARY KEY,
+    id    SERIAL  PRIMARY KEY,
     user_id     TEXT    NOT NULL,
-    order       TEXT    NOT NULL,
+    order_data       JSONB    NOT NULL,
     created_on  TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
     updated_on  TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
-    completed_on  TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+    completed_on  TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
 );
 -- +goose StatementEnd
 
