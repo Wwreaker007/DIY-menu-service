@@ -33,6 +33,9 @@ func (db *PostgresDBService) GetOrderByOrderID(ctx context.Context, orderID stri
 	var orderData []byte
 	var id int
 	row := db.client.QueryRow(query, orderID)
+	if row == nil {
+		return data.OrderEntity{}, nil
+	}
 	err := row.Scan(&id, &orderEntity.UserID, &orderData, &orderEntity.CreatedOn, &orderEntity.UpdatedOn, &orderEntity.CompletedOn)
 	if err != nil{
 		fmt.Println("unable to read data from row : " + err.Error())

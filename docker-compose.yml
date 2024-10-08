@@ -58,7 +58,7 @@ services:
       - orders
     environment:
       ORDERS_HOST: orders
-      ORDERS_PORT: 9001
+      ORDERS_PORT: "9001"
     ports:
       - "9000:9000"
     
@@ -72,7 +72,7 @@ services:
       - orders
     environment:
       ORDERS_HOST: orders
-      ORDERS_PORT: 9001
+      ORDERS_PORT: "9001"
     ports:
       - "8000:8000"
 
