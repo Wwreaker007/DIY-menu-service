@@ -1,27 +1,29 @@
 package main
 
 import (
+	"database/sql"
 	"fmt"
 	"log"
 	"net"
 
-	"github.com/Wwreaker007/DIY-menu-service/common/data"
-	"github.com/Wwreaker007/DIY-menu-service/orders/db/inmem"
+	"github.com/Wwreaker007/DIY-menu-service/orders/db/postgres"
 	"github.com/Wwreaker007/DIY-menu-service/orders/handlers"
-	oms "github.com/Wwreaker007/DIY-menu-service/orders/services/order_manager"
 	cms "github.com/Wwreaker007/DIY-menu-service/orders/services/cookhouse_manager"
+	oms "github.com/Wwreaker007/DIY-menu-service/orders/services/order_manager"
 	"google.golang.org/grpc"
 )
 
 type GrpcServer struct {
-	Network string
-	Address string
+	Network 	string
+	Address 	string
+	dbclient	*sql.DB
 }
 
-func NewGrpcServer(network string, address string) *GrpcServer {
+func NewGrpcServer(network string, address string, client *sql.DB) *GrpcServer {
 	return &GrpcServer{
 		Network: network,
 		Address: address,
+		dbclient: client,
 	}
 }
 
@@ -32,8 +34,13 @@ func (s *GrpcServer) Start() error {
 		return err
 	}
 
-	// Spin up the dependencies required for the GRPC server
-	db := inmem.NewInMemoryDbService(data.NewThreadSafeOrderEntity())
+	/*
+		Spin up the dependencies required for the GRPC server
+		1. Replacing the inmemoryDB implementation with postgresDB CRUD. 
+	*/
+
+	// db := inmem.NewInMemoryDbService(data.NewThreadSafeOrderEntity())
+	db := postgres.NewPostgresDBService(s.dbclient)
 	orderService := oms.NewOrderManagerService(db)
 	cookhouseService := cms.NewCookHouseManagerService(db)
 

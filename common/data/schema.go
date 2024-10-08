@@ -11,8 +11,8 @@ import (
 type OrderEntity struct {
 	UserID			string				`json:"user_id"`
 	Order 			*common.Order		`json:"order"`
-	CreatedOn		int64				`json:"created_on"`
-	UpdatedOn		int64				`json:"updated_on"`
+	CreatedOn		int64				`json:"created_on,omitempty"`
+	UpdatedOn		int64				`json:"updated_on,omitempty"`
 	CompletedOn		int64				`json:"completed_on,omitempty"`
 }
 
